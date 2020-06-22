@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>修改员工</title>
+</head>
+<body>
+    <form action="/user/update" method="post">
+        <table style="width: 100%" th:each="user,stat:${user}">
+            <tr>
+                <td>编号</td>
+                <td><input type="text" name="useied" th:value="${user.useied}"></td>
+            </tr>
+            <tr>
+                <td>用户名</td>
+                <td><input type="text" name="username" th:value="${user.username}"></td>
+            </tr>
+            <tr>
+                <td>邮箱</td>
+                <td><input type="text" name="email" th:value="${user.email}"></td>
+            </tr>
+            <tr>
+                <td>电话</td>
+                <td><input type="text" name="phonenum" th:value="${user.phonenum}"></td>
+            </tr>
+            <tr>
+                <td>状态</td>
+                <td>
+                    <input type="radio" value="1" name="status" th:checked="${user.status==1}?'true':'false'">正常
+                    <input type="radio" value="0" name="status" th:checked="${user.status==0}?'true':'false'">禁用
+                </td>
+            </tr>
+            <tr>
+                <td>部门编号</td>
+                <td><input type="text" name="deptid" th:value="${user.deptid}"></td>
+            </tr>
+            <tr>
+                <td>角色编号</td>
+                <td><input type="text" name="roleid" th:value="${user.roleid}"></td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="submit" name="提交">
+                </td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>

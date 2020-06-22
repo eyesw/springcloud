@@ -1,0 +1,63 @@
+server:
+  port: 8001
+  servlet:
+    context-path: /
+#配置数据源
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/bookdb?useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: root
+    type: com.alibaba.druid.pool.DruidDataSource
+  application:
+    name: Emp-instance
+#mybatis配置
+mybatis:
+  type-aliases-package: com.aaa.springboot_test_20200619.entity
+  mapper-locations: classpath:mapper/*.xml
+mvc:
+  date-format: yyyy-MM-dd
+jackson:
+  date-format: yyyy-MM-dd
+  time-zone: GMT+8
+#去注册中心注册自己
+  #配置eureka的注册中心地址(方便于自己向eureka中去注册)
+# 在consumer中有一个restTemplate(模拟http协议)--->http://localhost:8081/all
+# 之后就不会再使用真实地址来调用
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka01:9001/eureka/,http://eureka02:9002/eureka/,http://eureka03:9003/eureka/
+# 配置eureka的实例id(和数据库的主键一样，在同一个集群eureka中是绝对不允许重复的)
+# 官方文档中是没有要求限制的，怎么写可以
+# 但是咱们规定一下，这个值必须要体现provider的功能以及provider的端口号
+# 予人玫瑰手有余香
+# 张三正在开发book-provider
+# 李四正在开发order-provider
+# 这么去写其实并不是方便自己，只是让自己队友知道目前自己正在开发什么功能，方便队友操作
+  instance:
+    instance-id: emp-instance-8001
+    #实际开发中的细节
+    # 如果有一天你请假(结婚)--->但是在公司你所负责的provider抛异常了--->可以让同事帮忙处理--->如果你的同时可以直接获取到你服务器的ip地址，就可以直接远程操作修改异常
+    # 配置当鼠标悬浮否一个provider的时候，显示的不是localhost，直接显示ip地址
+    prefer-ip-address: true
+    # 失效eureka的自我保护机制
+    # 配置自己向eureka去发送心跳的时间(单位是秒)
+#    lease-renewal-interval-in-seconds: 5000
+    # 配置在eureka最后一次接收到心跳往后数几秒进行剔除
+#    lease-expiration-duration-in-seconds: 8000
+# 这个时候发现了其实eureka所显示的provider都是一个a标签，但是点进去之后会报错404(这个时候也是springcloud所给程序员提供的一种便利)
+# 当点击a标签的时候，显示的就是provider的开发者，公司名称，provider所提供的功能，provider下所有controller以及调用方法
+# info开头--->剩下的信息你可以随意去编写
+# 如果想要让以下信息生效，就必须要添加jar包(必须要添加actuator的jar包)
+
+info:
+  author:
+    name: qin
+  company:
+    name: qinbaba
+  project:
+    description: Test Emp Demo
+
+

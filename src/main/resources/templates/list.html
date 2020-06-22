@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="UTF-8">
+    <title>用户页面</title>
+</head>
+<body>
+<form method="post" action="/user/all">
+    <table border="1" width="70%">
+        <tr>
+            <td colspan="9">
+                <a href="../edit.html">新增</a>
+            </td>
+        </tr>
+        <tr>
+            <!--<th>序号</th>-->
+            <th>编号</th>
+            <th>用户名</th>
+            <th>部门编号</th>
+            <th>邮箱</th>
+            <th>电话</th>
+            <th>状态</th>
+            <th>角色编号</th>
+            <th>操作</th>
+        </tr>
+        <tr th:each="user,stat:${user}">
+            <!--<td th:text="${stat.count}"></td>-->
+            <td th:text="${user.useied}"></td>
+            <td th:text="${user.username}"></td>
+            <td th:text="${user.deptid}"></td>
+            <td th:text="${user.email}"></td>
+            <td th:text="${user.phonenum}"></td>
+            <td th:if="${user.status == 0}">禁用</td>
+            <td th:if="${user.status == 1}">启用</td>
+            <td th:text="${user.roleid}"></td>
+            <td>
+                <a th:href="@{/user/delete(useied=${user.useied})}">删除</a>
+                <a th:href="@{/user/queryId(useied=${user.useied})}">修改</a>
+            </td>
+            <!--<td th:text="${user.tb_dept}"></td>-->
+            <!--<td>-->
+                <!--<a th:href="@{/user/findByid(id=${user.id})}">修改</a>-->
+                <!--<a th:href="@{/user/delete(id=${user.id})}">删除</a>-->
+            <!--</td>-->
+        </tr>
+    </table>
+</form>
+    <shiro:authenticated>
+        <a href="/logout">退出</a>
+    </shiro:authenticated>
+</body>
+</html>
